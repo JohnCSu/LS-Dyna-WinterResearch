@@ -5,7 +5,7 @@ import numpy as np
 from datetime import datetime
 from glob import glob
 from collections import OrderedDict
-
+from cfile_methods import cfileMethods
 #Assume that the script always run in same directory as batch execution 
 '''
 To Do:
@@ -36,30 +36,31 @@ Key Assumptions:
 '''
 
 
-#Currently only cfigOBJ
+#Currently only cfileOBJ
 class ls_dyna_OBJ():
     def __init__(self):
         self.cwd = os.getcwd()
-        self.cfig = self.set_cfig()
+        self.cfile = self.set_cfile()
 
-    def set_cfig(self,cfigName = None ):
-        if cfigName:
-            self.cfigName = cfigName
+    def set_cfile(self,cfileName = None ):
+        if cfileName:
+            self.cfileName = cfileName
         else:
-            self.cfigName = 'py_lspost'
-        return cfigOBJ(self.cfigName,cwd = self.cwd)
+            self.cfileName = 'py_lspost'
+        return cfileOBJ(self.cfileName,cwd = self.cwd)
         
 
-class cfigOBJ():
-    def __init__(self,cfigname = 'py_lspost',cwd = os.getcwd(),dsplotName = 'dsplot', author = None):
+class cfileOBJ(cfileMethods):
+    def __init__(self,cfilename = 'py_lspost',cwd = os.getcwd(),dsplotName = 'dsplot', author = None):
+        super().__init__()
         #Only Store the filename not file extension. If file extension is added just remove it
-        self.name = cfigname.replace('.cfig','')
-        self.cwd = cwd
+        self.name = cfilename.replace('.cfile','')
+        self.cwd = cwd+os.sep
         self.dsplotName = dsplotName
         self.author = author
         #Get time of creation
         self.timeCreated = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-        #Set comments at top of cfig
+        #Set comments at top of cfile
         self.info = self.setInfo(author )
         #Commands is a list of strings.
         print('hi')
@@ -77,14 +78,14 @@ class cfigOBJ():
     def write(self,new_name =None,new_dsplotName = None,mode = 'w'):
         '''
         Inputs:
-        new_name = string for cfig name
+        new_name = string for cfile name
         new_dsplotName: type(str) for dsplot to open
         mode: type(str) how to open file. Default is 'w' can also be 'a'
         '''
-        #Function writes out the cfig 
+        #Function writes out the cfile 
         #If a new name is chosen, overide
         if new_name:
-            self.name = new_name.replace('.cfig','')
+            self.name = new_name.replace('.cfile','')
         
         if self.dsplotName is None and new_dsplotName is None:
             raise ValueError('A dsplot files needs to be chosen')
@@ -93,43 +94,35 @@ class cfigOBJ():
         
         self.commands['file'] = self.setOpenFile(self.dsplotName)
         
-        with open(f'{self.name}.cfig',mode) as f:
+        with open(f'{self.name}.cfile',mode) as f:
             f.write(self.commands['header'] + '\n')
             f.write(self.commands['file'] + '\n')
             for c in self.commands['contents']:
                 f.write(c+'\n')
-        print(f'{self.name}.cfig has been created!')
+        print(f'{self.name}.cfile has been created!')
     
 
     #Function independent of instance so can be called whenever
-    #Converts a .cfig file into a list of commands
+    #Converts a .cfile file into a list of commands
     @staticmethod
-    def importcfig(file,removeHeader = True):
-        #Function must contain the .cfig file extension else error is raised    
+    def importcfile(file,removeHeader = True):
+        #Function must contain the .cfile file extension else error is raised    
         with open(file, 'r') as f:
-            cfig = str.split(f.readlines(),'\n')
+            cfile = str.split(f.readlines(),'\n')
         if removeHeader:
             #If removeHeader is true, remove the description as well as the open 3dsplot function.
             #These will always be the first 3 lines
             #Maybe also find open 3dsplot line and slice from there is a more robust way?
-            return cfig[3:]
+            return cfile[3:]
         else:
-            return cfig
-    def setInfo(self,author):
-        if author:
-            self.author = author
-        
-        return f'#$ LS-PrePost command file created by {author if author else "University of Sydney"}\n\
-        #$ Created on {self.timeCreated}'
+            return cfile
 
-    def setOpenFile(self,dsplotName):
-        return f'open d3plot "{self.cwd}{os.sep}{dsplotName}"'
 
 
 if __name__ == '__main__':
     lsOBJ = ls_dyna_OBJ()
-    cfig = lsOBJ.cfig
-    print(cfig)
-    cfig.write()
-    # commands = cfig.commands
+    cfile = lsOBJ.cfile
+    print(cfile)
+    cfile.write()
+    # commands = cfile.commands
     # print(commands)
