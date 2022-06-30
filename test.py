@@ -5,6 +5,7 @@ import numpy as np
 from datetime import datetime
 from glob import glob
 from collections import OrderedDict
+# from cfile_methods import cfileMethods
 from cfile_methods import cfileMethods
 #Assume that the script always run in same directory as batch execution 
 '''
@@ -52,6 +53,18 @@ class ls_dyna_OBJ():
 
 class cfileOBJ(cfileMethods):
     def __init__(self,cfilename = 'py_lspost',cwd = os.getcwd(),dsplotName = 'dsplot', author = None):
+        '''
+        Inputs:
+        cfilename: Name of cfile. cfile extension if included is removed
+
+        cwd: working directory. By default assumes that the object is created in the same directory as the dsplot
+
+        dsplotName: LS-dyna file to open. By default it will try and open dsplot
+        
+        author: author's Name
+        
+        
+        '''
         super().__init__()
         #Only Store the filename not file extension. If file extension is added just remove it
         self.name = cfilename.replace('.cfile','')
@@ -75,11 +88,13 @@ class cfileOBJ(cfileMethods):
         return self.info
 
 
-    def write(self,new_name =None,new_dsplotName = None,mode = 'w'):
+    def writeCfig(self,new_name =None,new_dsplotName = None,mode = 'w'):
         '''
         Inputs:
-        new_name = string for cfile name
-        new_dsplotName: type(str) for dsplot to open
+        new_name : type(str) cfile name to replace current stored name. Default None
+
+        new_dsplotName: type(str) for dsplot to open. Default: None
+        
         mode: type(str) how to open file. Default is 'w' can also be 'a'
         '''
         #Function writes out the cfile 
