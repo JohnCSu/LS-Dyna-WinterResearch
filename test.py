@@ -51,7 +51,7 @@ class ls_dyna_OBJ():
         return cfileOBJ(self.cfileName,cwd = self.cwd)
         
 
-class cfileOBJ(cfileMethods):
+class cfileOBJ():
     def __init__(self,cfilename = 'py_lspost',cwd = os.getcwd(),dsplotName = 'dsplot', author = None):
         '''
         Inputs:
@@ -65,7 +65,6 @@ class cfileOBJ(cfileMethods):
         
         
         '''
-        super().__init__()
         #Only Store the filename not file extension. If file extension is added just remove it
         self.name = cfilename.replace('.cfile','')
         self.cwd = cwd+os.sep
