@@ -6,7 +6,7 @@ from datetime import datetime
 from glob import glob
 from collections import OrderedDict
 # from cfile_methods import cfileMethods
-from cfile_methods import cfileMethods
+from commands import commands
 #Assume that the script always run in same directory as batch execution 
 '''
 To Do:
@@ -52,7 +52,7 @@ class ls_dyna_OBJ():
         
 
 class cfileOBJ():
-    def __init__(self,cfilename = 'py_lspost',cwd = os.getcwd(),dsplotName = 'dsplot', author = None):
+    def __init__(self,cfilename = 'py_lspost',cwd = os.getcwd(), author = None):
         '''
         Inputs:
         cfilename: Name of cfile. cfile extension if included is removed
@@ -63,37 +63,26 @@ class cfileOBJ():
         
         author: author's Name
         
-        
         '''
         #Only Store the filename not file extension. If file extension is added just remove it
         self.name = cfilename.replace('.cfile','')
-        self.cwd = cwd+os.sep
-        self.dsplotName = dsplotName
+        self.cwd = cwd
         self.author = author
-        #Get time of creation
-        self.timeCreated = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-        #Set comments at top of cfile
-        self.info = self.setInfo(author )
         #Commands is a list of strings.
         print('hi')
         #Each element corresponds to an action e.g 'rx 10'
 
-        self.commands = OrderedDict()
-        self.commands['header'] = self.info
-        self.commands['file'] = self.setOpenFile(dsplotName)
-        self.commands['contents'] = []
+        self.commands = commands(cwd)
 
     def __str__(self):
-        return self.info
+        return f''
 
 
-    def writeCfig(self,new_name =None,new_dsplotName = None,mode = 'w'):
+    def writeTo(self,new_name =None,mode = 'w'):
         '''
         Inputs:
         new_name : type(str) cfile name to replace current stored name. Default None
 
-        new_dsplotName: type(str) for dsplot to open. Default: None
-        
         mode: type(str) how to open file. Default is 'w' can also be 'a'
         '''
         #Function writes out the cfile 
@@ -101,17 +90,8 @@ class cfileOBJ():
         if new_name:
             self.name = new_name.replace('.cfile','')
         
-        if self.dsplotName is None and new_dsplotName is None:
-            raise ValueError('A dsplot files needs to be chosen')
-        elif new_dsplotName:
-            self.dsplotName = new_dsplotName
-        
-        self.commands['file'] = self.setOpenFile(self.dsplotName)
-        
         with open(f'{self.name}.cfile',mode) as f:
-            f.write(self.commands['header'] + '\n')
-            f.write(self.commands['file'] + '\n')
-            for c in self.commands['contents']:
+            for c in self.commands:
                 f.write(c+'\n')
         print(f'{self.name}.cfile has been created!')
     
@@ -137,6 +117,13 @@ if __name__ == '__main__':
     lsOBJ = ls_dyna_OBJ()
     cfile = lsOBJ.cfile
     print(cfile)
-    cfile.write()
+    cmd = cfile.commands
+
+    cmd.set_info('John Su')
+    cmd.openFile()
+    cmd.screenshot()
+    
+
+    cfile.writeTo()
     # commands = cfile.commands
     # print(commands)
