@@ -1,6 +1,6 @@
 
 
-def plotContour(contour = 'x_stress'):
+def plotContour(contour = 'x_stress', name = None):
     '''
     Plot the contour of the model.
 
@@ -9,12 +9,18 @@ def plotContour(contour = 'x_stress'):
     y-stress is keyed to 2 etc.
 
     Inputs
-        field: type str of int
+        Contour: type str of int
 
-        String: returns the contour output listed in the dictionary below
+            String: returns the contour output listed in the dictionary below
 
-        Int: instead of using a string, use the field key directly. This can be
-            used to plot contours not listed in the dictionary below
+            Int: instead of using a string, use the field key directly. This can be
+                used to plot contours not listed in the dictionary below
+
+
+        Name (Optional): Only used if contour is an int
+            ignored if contour is a string
+            String: gives a name to the new contour
+
 
 
         The following strings can be used to plot 
@@ -58,16 +64,20 @@ def plotContour(contour = 'x_stress'):
 
     }
 
-    contour = contour_dic[contour] if isinstance(contour,str) else contour
-    return f'fringe {contour}; pfringe'
+    contour_val = contour_dic[contour] if isinstance(contour,str) else contour
+
+    if isinstance(contour,str) or name is None:
+        comment_name = contour
+    else:
+        comment_name = name
+ 
+    comment = f'#$ Plotting {comment_name}\n'    
+    return comment + f'fringe {contour_val}; pfringe'
     
 
 
 def FringeOptions(**kwargs):
     pass
-
-
-
 
 
 

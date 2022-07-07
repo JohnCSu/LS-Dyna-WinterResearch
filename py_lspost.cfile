@@ -1,3 +1,4 @@
-#$ LS-PrePost command file created by University of Sydney
-#$ Created on 2022-06-28 13:04:12
-open d3plot "C:\Users\ShyGuy\Desktop\HelloWorld\dsplot"
+#$ LS-PrePost command file created by John Su
+#$ Created on 2022-07-05 10:49:59
+open d3plot "C:\Users\ShyGuy\Desktop\HelloWorld\d3plot"
+print png "C:\Users\ShyGuy\Desktop\HelloWorld\image.png" gamma 1.24 invert 0.9 enlisted "OGL1x"

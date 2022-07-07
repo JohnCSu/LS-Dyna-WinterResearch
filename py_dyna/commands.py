@@ -69,8 +69,10 @@ class commands():
         self.commands.append( movie(mov_name,format,resolution,gamma,FPS,self.cwd) )
     
     def state(self,state_no,increment = False):
-        return state(state_no,increment)
+        self.commands.append( state(state_no,increment))
 
+    def plotContour(self,contour = 'von-mises'):
+        self.commands.append(plotContour(contour))
     
 if __name__ == '__main__':
     cmd = commands()

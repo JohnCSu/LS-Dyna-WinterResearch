@@ -13,7 +13,10 @@ cmd.openFile('d3plot')
 #Set viewpoint
 cmd.viewpoint('isometric x')
 
-#Movie 
+#Set Contour
+cmd.plotContour('von-mises')
+
+#File I/O Movie 
 cmd.movie(mov_name= 'hello_world')
 
 print(cmd)
