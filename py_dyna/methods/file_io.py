@@ -1,7 +1,5 @@
-from fileinput import filename
-import os
-from urllib import response
 
+import os
 import pandas as pd
 import numpy as np
 from datetime import datetime
@@ -17,12 +15,11 @@ This contains all the methods to write to the cfile file.
 
 '''
 
-
-def setOpenFile(dsplotName,cwd):
+def OpenFile(dsplotName,cwd):
     path = os.path.join(cwd,dsplotName)
     return f'open d3plot "{path}"'
 
-def setInfo(author = None):
+def set_info(author = None):
     return f'#$ LS-PrePost command file created by {author if author else "University of Sydney"}\n#$ Created on {datetime.today().strftime("%Y-%m-%d %H:%M:%S")}'
 
 
@@ -84,43 +81,4 @@ def movie(mov_name = 'py_movie',format = 'MP4/H264',resolution = (1980,1080),gam
     return f'movie {format} {resolution} "{full_path}" {gamma} {FPS}'
 
     
-
-    return 0
-
-
-
-if __name__ == '__main__':
-    print(movie.__doc__)
-    print(movie())
-    #
-
-
-
-
-
-
-def viewpoint(view = 'top'):
-    valid_views = {'top','bottom','front','back','left','right'} #Need to check
-    if view in valid_views:
-        return view
-    else:
-        raise ValueError(f'view give is invalid. Check spelling or please choose a view from the following options: \n{valid_views}')
-
-def zoom(x,y,z):
-    pass
-
-def rotate(angle,axis = 'X'):
-    axis = axis.lower()
-    valid_axis = {'x','y','z'}
-
-    if not (isinstance(angle,float) or isinstance(angle,int)):
-        raise ValueError('Enter a number (int or float) for angle')
-
-    if axis not in valid_axis:
-        raise ValueError('valid Axis\' are x,y or z')
-
-    return f'r{axis} {angle}'
-def setContour(self,val):
-    pass
-def setCountorOptions(self):
-    pass
+  

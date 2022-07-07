@@ -1,5 +1,7 @@
 import numpy as np
-from cfile_methods import *
+from .methods.file_io import *
+from .methods.view import *
+from .methods.contour import *
 import os
 
 
@@ -15,7 +17,7 @@ def add_to_list(func):
 class commands():
     def __init__(self,cwd = os.getcwd()): 
         self.commands = []
-
+        
         #Initialise state variables
         self.author = None
         self.timeCreated = None
@@ -38,10 +40,10 @@ class commands():
     def set_info(self, author = None):
         if author:
             self.author = author
-        self.commands.append(setInfo(author))
+        self.commands.append(set_info(author))
     
     def openFile(self,filename = 'd3plot'):
-        self.commands.append(setOpenFile(filename,self.cwd))
+        self.commands.append(OpenFile(filename,self.cwd))
 
     def incl_pythonScript(self,file = ''):
         pass
@@ -62,11 +64,14 @@ class commands():
     
     # def movie(self,mov_name = 'py_movie',format = 'MP4/H264',resolution = (1980,1080),gamma = 1.0, FPS = 10.0):
     #     self.commands.append(movie(mov_name = 'py_movie',format = 'MP4/H264',resolution = (1980,1080),gamma = 1.0, FPS = 10.0, cwd = os.getcwd()))
-    @add_to_list
-    def movie(mov_name = 'py_movie',format = 'MP4/H264',resolution = (1980,1080),gamma = 1.0, FPS = 10.0,cwd = os.getcwd):
-        return movie(mov_name = 'py_movie',format = 'MP4/H264',resolution = (1980,1080),gamma = 1.0, FPS = 10.0,cwd = os.getcwd)
+    # @add_to_list
+    def movie(self,mov_name = 'py_movie',format = 'MP4/H264',resolution = (1980,1080),gamma = 1.0, FPS = 10.0):
+        self.commands.append( movie(mov_name,format,resolution,gamma,FPS,self.cwd) )
+    
+    def state(self,state_no,increment = False):
+        return state(state_no,increment)
 
-
+    
 if __name__ == '__main__':
     cmd = commands()
-    print(cmd.movie())
+    help(cmd.movie)
