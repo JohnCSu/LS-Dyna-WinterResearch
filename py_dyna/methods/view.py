@@ -1,12 +1,24 @@
 def viewpoint(view = 'top'):
     '''
     Set default viewing angle for the GUI
+
+    Valid Views:
+        'top','bottom','front','back','left','right','isometric x','isometric y','isometric z'
     '''
+    
     valid_views = {'top','bottom','front','back','left','right','isometric x','isometric y','isometric z'} #Need to check
+
+
     if view in valid_views:
         return view
     else:
         raise ValueError(f'view give is invalid. Check spelling or please choose a view from the following options: \n{valid_views}')
+
+
+
+
+
+
 
 
 def rotate(angle,axis = 'X'):
@@ -21,8 +33,16 @@ def rotate(angle,axis = 'X'):
 
     return f'r{axis} {angle}'
 
+
+
+
+
+
 def zoom(x,y,z):
     pass
+
+
+
 
 
 def state(state_no = 1,increment = False):

@@ -1,5 +1,10 @@
 import py_dyna as pd
 
+
+'''
+You can find documentation of options in the methods folder (./py_dyna/methods...)
+
+'''
 #basic setup
 cfile = pd.cfileOBJ()
 cmd = cfile.commands
@@ -9,16 +14,20 @@ cmd = cfile.commands
 cmd.set_info(author = 'John Su')
 cmd.openFile('d3plot')
 
-
-#Set viewpoint
+#Set view.py
 cmd.viewpoint('isometric x')
 
-#Set Contour
+#See contour.py
 cmd.plotContour('von-mises')
 
-#File I/O Movie 
+#See file_io 
 cmd.movie(mov_name= 'hello_world')
 
-print(cmd)
+
+cmd.plotContour('x-stress')
+#See file_io 
+cmd.movie(mov_name= 'hello_world2')
+
+
 #No need to add .cfileextension
 cfile.writeTo('hello_world')
