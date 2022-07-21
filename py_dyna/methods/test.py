@@ -1,8 +1,7 @@
-from file_io import movie
 
 
-def movie():
-    return movie()
-
-
-print(movie())
+def test(x,y,z):
+    return(locals())
+    
+local=(test(1,2,3))
+print(test(**local))

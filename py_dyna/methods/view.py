@@ -21,7 +21,14 @@ def viewpoint(view = 'top'):
 
 
 
-def rotate(angle,axis = 'X'):
+def rotate(angle = 10,axis = 'X'):
+    '''
+    
+    quart a tuple (x,i,j,k) represent quartinion rotation
+    Only occurs if quart is not none (as overloading not really a thing in python ....)
+
+    '''
+
     axis = axis.lower()
     valid_axis = {'x','y','z'}
 
@@ -32,7 +39,16 @@ def rotate(angle,axis = 'X'):
         raise ValueError('valid Axis\' are x,y or z')
 
     return f'r{axis} {angle}'
+    
 
+
+
+def quat(x,i,j,k):
+    #Set Quarternion value
+    for q in [x,i,j,k]:
+        if not isinstance(int,q) or not isinstance(float,q):
+            raise ValueError('quarternion values must be type int or float')
+    return f'quat {x} {i} {j} {k};'
 
 
 

@@ -1,6 +1,6 @@
 import numpy as np
 import os
-
+from pathlib import PureWindowsPath
 
 #THIS IS SUPER HACKY
 func_before = dir()
@@ -22,7 +22,7 @@ class commands():
     
     
     '''
-    def __init__(self,cwd = os.getcwd()): 
+    def __init__(self,cwd = './'): 
         self.commands = []
         
         #Initialise state variables
@@ -59,6 +59,7 @@ class commands():
     def set_info(self, author = None):
         if author:
             self.author = author
+        print(locals())
         self.commands.append(set_info(author))
     
     def openFile(self,filename = 'd3plot'):
@@ -79,6 +80,9 @@ class commands():
         self.commands.append(rotate(angle,axis))
     
     def screenshot(self,imgName = 'image.png',window = 'OGL1x', gamma = 1.24 ,invert = 0.9,overwrite = False):
+        args = locals()
+        args.pop('self')
+        
         self.commands.append(screenshot(imgName,self.cwd,window,gamma,invert, overwrite))
     
     def movie(self,mov_name = 'py_movie',format = 'MP4/H264',resolution = (1980,1080),gamma = 1.0, FPS = 10.0):
@@ -89,11 +93,15 @@ class commands():
         self.commands.append( state(state_no,increment))
     
 
-    def plotContour(self,contour = 'von-mises'):
-        self.commands.append(plotContour(contour))
+    def plotContour(self,contour, name = None,plot = 'fringe'):
+        self.commands.append(plotContour(contour, name = None,plot = 'fringe'))
 
-
+    def contourRange(self,range,min =None,max = None):
+        self.commands.append(contourRange(range,min =None,max = None))
 if __name__ == '__main__':
     cmd = commands()
     help(cmd.movie)
-    # print(dir())
+    def test(x,y,z):
+        print(locals())
+
+    test(x=1,y=2,z=3)
