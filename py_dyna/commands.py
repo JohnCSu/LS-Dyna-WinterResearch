@@ -22,7 +22,8 @@ class commands():
     
     
     '''
-    def __init__(self,cwd = './'): 
+    def __init__(self,cwd = './'):
+        super().__init__() 
         self.commands = []
         
         #Initialise state variables
@@ -42,7 +43,6 @@ class commands():
             yield c
     def __str__(self):
         return ''.join( [c+'\n' for c in self.commands])
-            
 
     def set_DocString(self):
         '''
@@ -167,6 +167,23 @@ class commands():
         
         self.screenshot(imgName= imgName)
 
+    def resetView(self):
+        '''
+        Convience Function to reset to default view useful if doing lots of different custom views
+        '''
+        self.comment('Reset to Default View')
+        self.commands.append('shad')
+        self.viewpoint('isometric x')
+        self.state(0)
+        self.commands.append('ac')
+
+    def add_Cfile(self,cfile):
+        '''
+        Add an imported cfile list from cfileOBJ().importcfile method
+        Really its just a wrapper function that combines two lists together.
+    
+        '''
+        self.commands += cfile
     
 if __name__ == '__main__':
     cmd = commands()
