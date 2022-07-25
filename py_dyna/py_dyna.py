@@ -59,7 +59,7 @@ class cfileOBJ():
             if 'open d3plot' in cmd and removeOpen:
                 cfile.remove(cmd)
         
-        cfile.insert(0,f'#$ Imported cfile commands from {file}')
+        cfile.insert(0,f'#$ Imported cfile commands from {file} '+ '#'*20 + '\n')
 
         #Give people the choice to directly append cfile to current commands
         if addToCommands:

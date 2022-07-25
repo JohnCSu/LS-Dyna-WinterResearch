@@ -13,8 +13,7 @@ cmd = cfile.commands
 print(cfile)
 
 imported_cfile = cfile.importcfile('test.cfile',addToCommands=True)
-# print(imported_cfile)
-print(cmd)
+print(cfile.commands)
 
 exit()
 #Add info at top and file to open

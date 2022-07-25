@@ -22,7 +22,7 @@ class commands():
     
     
     '''
-    def __init__(self,cwd = './'):
+    def __init__(self,cwd = ''):
         super().__init__() 
         self.commands = []
         
@@ -69,9 +69,11 @@ class commands():
         self.commands.append(OpenFile(filename,self.cwd))
 
     def screenshot(self,imgName = 'image.png',window = 'OGL1x', gamma = 1.24 ,invert = 0.9,overwrite = False):
+        self.comment('Record Screenshot')
         self.commands.append(screenshot(imgName,self.cwd,window,gamma,invert, overwrite))
     
     def movie(self,mov_name = 'py_movie',format = 'MP4/H264',resolution = (1980,1080),gamma = 1.0, FPS = 10.0):
+        self.comment('Record Movie')
         self.commands.append( movie(mov_name,format,resolution,gamma,FPS,self.cwd) )
     
     
@@ -90,6 +92,7 @@ class commands():
         self.commands.append(rotate(angle,axis))
     
     def state(self,state_no,increment = False):
+        
         self.commands.append( state(state_no,increment))
     
     # Functions from contour.py
@@ -98,6 +101,7 @@ class commands():
         self.commands.append(plotContour(contour, name = None,plot = 'fringe'))
 
     def contourRange(self,range,min =None,max = None):
+        self.comment('Set Contour Range')
         self.commands.append(contourRange(range,min =None,max = None))
 
 
@@ -151,7 +155,7 @@ class commands():
 
         '''
 
-        self.comment('Screenshotting contour photo')
+        self.comment('\nScreenshotting contour photo ' +'#'*20 + '\n')
         if viewpoint is not None:
             self.viewpoint(viewpoint)
         #Set State you want to sceenshot
@@ -171,7 +175,7 @@ class commands():
         '''
         Convience Function to reset to default view useful if doing lots of different custom views
         '''
-        self.comment('Reset to Default View')
+        self.comment('Reset to Default View '+ '#'*20 + '\n')
         self.commands.append('shad')
         self.viewpoint('isometric x')
         self.state(0)
