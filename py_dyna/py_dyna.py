@@ -49,7 +49,7 @@ class ls_dyna_OBJ():
 ######################################################## USE ME BELOW ##################################################################
 
 class cfileOBJ():
-    def __init__(self,cfilename = 'py_lspost',cwd = os.getcwd(), author = None):
+    def __init__(self,cfilename = 'py_lspost',cwd = '', author = None):
         '''
         Inputs:
         cfilename: Name of cfile. cfile extension if included is removed

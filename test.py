@@ -31,3 +31,47 @@ cmd.movie(mov_name= 'hello_world2')
 
 #No need to add .cfileextension
 cfile.writeTo('hello_world')
+
+
+from functools import wraps
+
+
+def func(x):
+    '''This is a test function'''
+    return x**2  
+class testOBJ():
+    def __init__(self):
+        self.test = []
+        self.wrap = self.wrapper_function(func)
+        self.wrap(4)
+        print(self.test)
+
+    
+    def wrapper_function(self,func):
+        '''Wraps Each Function to append looks cleaner'''
+        @wraps(func)
+        def inner_function(*args,**kwargs):
+            self.test.append(func(*args,**kwargs))
+        return inner_function
+
+print(func.__)
+
+class cwd_Obj():
+    '''
+    Really hacky way to do this. Basically dont execute the string 
+    '''
+    def __init__(self,func,*args,**kwargs):
+        self.func = func
+        self.args = args
+        self.kwargs = kwargs
+    def __call__(self,platform = 'windows'):
+        '''
+        Can be either windows or linux 
+        Delays the calling of a function until at execution
+        '''
+
+        return self.func(*self.args,**self.kwargs)
+
+# a = cwd_Obj(func,x=9)
+
+

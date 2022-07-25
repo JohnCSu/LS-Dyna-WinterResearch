@@ -24,6 +24,9 @@ def plotContour(contour, name = None,plot = 'fringe'):
             String: gives a name to the new contour
 
         plot (default = fringe): String argument to set plotting style 
+            choices are fringe, 'fringe',isosurf', 'contour''isofringe'}
+
+
 
         The following strings can be used to plot 
 
@@ -120,6 +123,8 @@ def plotContour(contour, name = None,plot = 'fringe'):
     }
 
 
+
+    #If there are additional fringe plots you want then add them here
     valid_plots = {
         'fringe', #Frin
         'isosurf', #
@@ -143,13 +148,12 @@ def plotContour(contour, name = None,plot = 'fringe'):
 
     p_plot = 'p'+plot
 
-
     comment = f'#$ Plotting {comment_name}\n'    
     return comment + f'{plot} {contour_val}; {p_plot}'
     
 
 
-def contourRange(range,min =None,max = None):
+def contourRange(range,min =None,max = None,levels = 10):
     range_opt = {
     'dynamic':'dynamic',
     'static':'static',
@@ -160,10 +164,13 @@ def contourRange(range,min =None,max = None):
     if range not in range_opt.keys():
         raise ValueError(f'Please Enter a Valid Range from {range_opt}')
 
+
     if range in {'dynammic','static'}:
-        return f'range {range[range]};'
+        return f'range {range[range]};\nrange level {levels};range pal update;'
     else:
-        return f'range {range[range]} {min} {max};'
+        if min is None or max is None:
+            raise ValueError(f'the option {range} requires a minimum and a maximum range')
+        return f'range {range[range]} {min} {max};\nrange level {levels};range pal update;'
 
     
 

@@ -65,10 +65,6 @@ class commands():
     def openFile(self,filename = 'd3plot'):
         self.commands.append(OpenFile(filename,self.cwd))
 
-    def incl_pythonScript(self,file = ''):
-        pass
-    def python_cmd(self,cmd = None,*args,**kwargs):
-        pass
 
     def viewpoint(self,view = 'top'):
         self.commands.append(viewpoint(view))
@@ -80,9 +76,6 @@ class commands():
         self.commands.append(rotate(angle,axis))
     
     def screenshot(self,imgName = 'image.png',window = 'OGL1x', gamma = 1.24 ,invert = 0.9,overwrite = False):
-        args = locals()
-        args.pop('self')
-        
         self.commands.append(screenshot(imgName,self.cwd,window,gamma,invert, overwrite))
     
     def movie(self,mov_name = 'py_movie',format = 'MP4/H264',resolution = (1980,1080),gamma = 1.0, FPS = 10.0):
@@ -98,6 +91,65 @@ class commands():
 
     def contourRange(self,range,min =None,max = None):
         self.commands.append(contourRange(range,min =None,max = None))
+
+
+    def ContourMovie(self,mov_name,contour,viewpoint = None,range = 'static',FPS = 10,levels = 10,plot = 'fringe',format = 'MP4/H264'):
+        '''
+        Convience Function to record movie. For complicated views outside of the default viewpoints (top,bottom,left etc), set the desired view outside of this function
+        Inputs:
+            mov_name : (str):                   Name of movie file with no ext
+            contour: (str or int):              type of contour to display (e.g. von-mises)
+            range: str of(tuple) Default 'static': set Contour Range. if static or dynamic can be a single string otherwise add a tuple:
+                                                    ('userdef',min , max),First element in tuple is the range type followed by the min val and max val if applicable
+
+            viewpoint: (str) Default: None :    Viewpoint to record. If None uses current viewport
+            FPS: (int) Default: 10 :            Number of frames per second
+            levels: (int) : Default : 10        Number of Contour Levels
+            format: (str) Default: MP4/H264     Format to record  image. MP4 is defult video format set to MJPEG to screenshot every state
+
+        '''
+        if viewpoint is not None:
+            self.viewpoint(viewpoint)
+    
+        self.plotContour(contour=contour,plot=plot)
+
+        
+        
+        self.movie(mov_name = mov_name,FPS = FPS,format=format)
+
+    def ContourPhoto(self,imgName,contour,state,viewpoint = None,range = 'static',levels = 10,plot = 'fringe'):
+        '''
+        Convience Function to screenshot photo. For complicated views outside of the default viewpoints (top,bottom,left etc), configure that first outside of this function
+
+        Inputs:
+            Imgname : (str):                   Name of movie file with extension. Recommended: .png, .jpg
+            contour: (str or int):             type of contour to display (e.g. von-mises)
+            state: (int)                       The state to take the screenshot in.
+            
+            range: str of(tuple) Default 'static': set Contour Range. if static or dynamic can be a single string otherwise add a tuple:
+                                                    ('userdef',min , max),First element in tuple is the range type followed by the min val and max val if applicable            
+            viewpoint: (str) Default: None :    Viewpoint to record. If None uses current viewport
+            FPS: (int) Default: 10 :            Number of frames per second
+            levels: (int) : Default : 10        Number of Contour Levels
+            format: (str) Default: MP4/H264     Format to record  image. MP4 is defult video format set to MJPEG to screenshot every state
+
+        '''
+        if viewpoint is not None:
+            self.viewpoint(viewpoint)
+        #Set State you want to sceenshot
+
+        self.state(state_no=state)
+
+        self.plotContour(contour=contour,plot=plot)
+        
+        if isinstance(str,range):
+            self.contourRange(range=range,level = levels)
+        else: #Is a tuple which will need to be unpacked
+            self.contourRange(*range,level = levels)
+        
+        self.screenshot(imgName= imgName)
+
+    
 if __name__ == '__main__':
     cmd = commands()
     help(cmd.movie)
