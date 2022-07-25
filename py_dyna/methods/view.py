@@ -14,10 +14,12 @@ def viewpoint(view = 'top'):
     else:
         raise ValueError(f'view give is invalid. Check spelling or please choose a view from the following options: \n{valid_views}')
 
+def zoom(x):
+    '''
+    set the zoom level 
 
-
-
-
+    '''
+    return f'zoom {x};'
 
 
 

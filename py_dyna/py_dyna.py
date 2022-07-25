@@ -48,27 +48,37 @@ class cfileOBJ():
 
     #Function independent of instance so can be called whenever
     #Converts a .cfile file into a list of commands
-    @staticmethod
-    def importcfile(file,removeOpen):
+    
+    def importcfile(self,file,removeOpen = True, addToCommands = True):
         #Function must contain the .cfile file extension else error is raised
          
         with open(file, 'r') as f:
-            cfile = str.split(f.readlines(),'\n')
+            #Get rid of 
+            cfile = [line.replace('\n','') for line in f.readlines()]
         for cmd in cfile:
-            if 'open' in cmd:
+            if 'open d3plot' in cmd and removeOpen:
                 cfile.remove(cmd)
         
         cfile.insert(0,f'#$ Imported cfile commands from {file}')
 
-        return cfile
+        #Give people the choice to directly append cfile to current commands
+        if addToCommands:
+            self.commands.add_Cfile(cfile)
+            return None
+        else:
+            return cfile
 
 
 
 
 if __name__ == '__main__':
-    lsOBJ = ls_dyna_OBJ()
-    cfile = lsOBJ.cfile
+    cfile = cfileOBJ()
     print(cfile)
+
+    imported_cfile = cfile.importcfile('hello_world.cfile',addToCommands=False)
+    print(imported_cfile)
+
+    exit()
     cmd = cfile.commands
 
     cmd.set_info('John Su')
