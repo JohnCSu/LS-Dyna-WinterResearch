@@ -3,50 +3,6 @@ import os
 from .commands import commands
 
 #Assume that the script always run in same directory as batch execution 
-'''
-To Do:
-
-- Check current functions are working
-- Move them to another script to avoid clutter
-- Add:
-    -Take snapshot
-    -Record Movie
-    -Set contour options
-- Need to map contour names (e.g. von mises stress) to contour indexing... (sigh)
-- This is not going to be just one script to avoid cluttering
-
-Possible Changes:
-
-- Make commands an ordered dict?
-    - Header Info
-    - Open File
-    - Commands
--Check if dsplot is in path
-
-
-Key Assumptions:
--Header is special
--First dsplot is special should really just assume 
--The script does not check if dsplot exists
-
-'''
-
-
-#To do once I learn the Python API for LS-Dyna
-class ls_dyna_OBJ():
-    def __init__(self):
-        self.cwd = os.getcwd()
-        self.cfile = self.set_cfile()
-
-    def set_cfile(self,cfileName = None ):
-        if cfileName:
-            self.cfileName = cfileName
-        else:
-            self.cfileName = 'py_lspost'
-        return cfileOBJ(self.cfileName,cwd = self.cwd)
-
-
-######################################################## USE ME BELOW ##################################################################
 
 class cfileOBJ():
     def __init__(self,cfilename = 'py_lspost',cwd = '', author = None):
@@ -71,18 +27,18 @@ class cfileOBJ():
         return f''
 
 
-    def writeTo(self,new_name =None,mode = 'w'):
+    def writeTo(self,cfile_name =None,mode = 'w'):
         '''
         Inputs:
         new_name : type(str) cfile name to replace current stored name. 
         if None then name is self.name (typically just py_lspost)
-    
+
         mode: type(str) how to open file. Default is 'w' can also be 'a'
         '''
         #Function writes out the cfile 
         #If a new name is chosen, overide
-        if new_name:
-            self.name = new_name.replace('.cfile','')
+        if cfile_name:
+            self.name = cfile_name.replace('.cfile','')
         
         with open(f'{self.name}.cfile',mode) as f:
             for c in self.commands:
@@ -93,17 +49,19 @@ class cfileOBJ():
     #Function independent of instance so can be called whenever
     #Converts a .cfile file into a list of commands
     @staticmethod
-    def importcfile(file,removeHeader = True):
-        #Function must contain the .cfile file extension else error is raised    
+    def importcfile(file,removeOpen):
+        #Function must contain the .cfile file extension else error is raised
+         
         with open(file, 'r') as f:
             cfile = str.split(f.readlines(),'\n')
-        if removeHeader:
-            #If removeHeader is true, remove the description as well as the open 3dsplot function.
-            #These will always be the first 3 lines
-            #Maybe also find open 3dsplot line and slice from there is a more robust way?
-            return cfile[3:]
-        else:
-            return cfile
+        for cmd in cfile:
+            if 'open' in cmd:
+                cfile.remove(cmd)
+        
+        cfile.insert(0,f'#$ Imported cfile commands from {file}')
+
+        return cfile
+
 
 
 

@@ -56,6 +56,9 @@ class commands():
                 y =getattr(x,'__func__')
                 y.__doc__ = getattr(globals()[f],'__doc__')
 
+
+    # Functions from file_io.py
+    
     def set_info(self, author = None):
         if author:
             self.author = author
@@ -65,6 +68,17 @@ class commands():
     def openFile(self,filename = 'd3plot'):
         self.commands.append(OpenFile(filename,self.cwd))
 
+    def screenshot(self,imgName = 'image.png',window = 'OGL1x', gamma = 1.24 ,invert = 0.9,overwrite = False):
+        self.commands.append(screenshot(imgName,self.cwd,window,gamma,invert, overwrite))
+    
+    def movie(self,mov_name = 'py_movie',format = 'MP4/H264',resolution = (1980,1080),gamma = 1.0, FPS = 10.0):
+        self.commands.append( movie(mov_name,format,resolution,gamma,FPS,self.cwd) )
+    
+    
+    def comment(self,text):
+        self.commands.append(comment(text))
+
+    # Functions from view.py
 
     def viewpoint(self,view = 'top'):
         self.commands.append(viewpoint(view))
@@ -75,16 +89,10 @@ class commands():
     def rotate(self,angle,axis = 'X'):
         self.commands.append(rotate(angle,axis))
     
-    def screenshot(self,imgName = 'image.png',window = 'OGL1x', gamma = 1.24 ,invert = 0.9,overwrite = False):
-        self.commands.append(screenshot(imgName,self.cwd,window,gamma,invert, overwrite))
-    
-    def movie(self,mov_name = 'py_movie',format = 'MP4/H264',resolution = (1980,1080),gamma = 1.0, FPS = 10.0):
-        self.commands.append( movie(mov_name,format,resolution,gamma,FPS,self.cwd) )
-    
-    
     def state(self,state_no,increment = False):
         self.commands.append( state(state_no,increment))
     
+    # Functions from contour.py
 
     def plotContour(self,contour, name = None,plot = 'fringe'):
         self.commands.append(plotContour(contour, name = None,plot = 'fringe'))
@@ -92,6 +100,9 @@ class commands():
     def contourRange(self,range,min =None,max = None):
         self.commands.append(contourRange(range,min =None,max = None))
 
+
+
+    #Convience Functions
 
     def ContourMovie(self,mov_name,contour,viewpoint = None,range = 'static',FPS = 10,levels = 10,plot = 'fringe',format = 'MP4/H264'):
         '''
@@ -108,12 +119,18 @@ class commands():
             format: (str) Default: MP4/H264     Format to record  image. MP4 is defult video format set to MJPEG to screenshot every state
 
         '''
+        
+        self.comment('Recording Contour Movie')
+
         if viewpoint is not None:
             self.viewpoint(viewpoint)
     
         self.plotContour(contour=contour,plot=plot)
 
-        
+        if isinstance(str,range):
+            self.contourRange(range=range,level = levels)
+        else: #Is a tuple which will need to be unpacked
+            self.contourRange(*range,level = levels)
         
         self.movie(mov_name = mov_name,FPS = FPS,format=format)
 
@@ -129,11 +146,12 @@ class commands():
             range: str of(tuple) Default 'static': set Contour Range. if static or dynamic can be a single string otherwise add a tuple:
                                                     ('userdef',min , max),First element in tuple is the range type followed by the min val and max val if applicable            
             viewpoint: (str) Default: None :    Viewpoint to record. If None uses current viewport
-            FPS: (int) Default: 10 :            Number of frames per second
             levels: (int) : Default : 10        Number of Contour Levels
             format: (str) Default: MP4/H264     Format to record  image. MP4 is defult video format set to MJPEG to screenshot every state
 
         '''
+
+        self.comment('Screenshotting contour photo')
         if viewpoint is not None:
             self.viewpoint(viewpoint)
         #Set State you want to sceenshot

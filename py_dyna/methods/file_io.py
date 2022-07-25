@@ -80,4 +80,8 @@ def movie(mov_name = 'py_movie',format = 'MP4/H264',resolution = (1980,1080),gam
     return f'movie {format} {resolution} "{full_path}" {gamma} {FPS}'
 
     
-  
+def comment(text):
+    '''
+    Add a comment to text file
+    '''
+    return f'#$ {text}'
