@@ -68,7 +68,7 @@ class commands():
     def openFile(self,filename = 'd3plot'):
         self.commands.append(OpenFile(filename,self.cwd))
 
-    def screenshot(self,imgName = 'image.png',window = 'OGL1x', gamma = 1.24 ,invert = 0.9):
+    def screenshot(self,imgName = 'image.png',window = 'OGL1x', gamma = 1.24 ,invert = None):
         self.comment('Record Screenshot')
         self.commands.append(screenshot(imgName,self.cwd,window,gamma,invert))
     

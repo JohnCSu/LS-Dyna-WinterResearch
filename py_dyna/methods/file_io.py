@@ -22,7 +22,7 @@ def set_info(author = None):
     return f'$# LS-PrePost command file created by {author if author else "University of Sydney"}\n$# Created on {datetime.today().strftime("%Y-%m-%d %H:%M:%S")}'
 
 
-def screenshot(imgName,cwd = os.getcwd(),window = 'OGL1x', gamma = 1.24 ,invert = 0.9):
+def screenshot(imgName,cwd = os.getcwd(),window = 'OGL1x', gamma = 1.24 ,invert = None):
 
 #Split file name into name and extension  
     filename ,file_ext = imgName.split('.')
@@ -34,9 +34,10 @@ def screenshot(imgName,cwd = os.getcwd(),window = 'OGL1x', gamma = 1.24 ,invert 
 
     
     full_path = os.path.join(cwd,imgName)
-    
-    return f'print {file_ext} "{full_path}" gamma {gamma} invert {invert} enlisted "{window}"'
-
+    if invert is not None:
+        return f'print {file_ext} "{full_path}" gamma {gamma} transparent invert {invert} enlisted "{window}"'
+    else:
+        return f'print {file_ext} "{full_path}" gamma {gamma} opaque enlisted "{window}"'
 def movie(mov_name = 'py_movie',format = 'MP4/H264',resolution = (1980,1080),gamma = 1.0, FPS = 10.0, cwd = os.getcwd()):
     '''
     Writes out the cmd for a movie
