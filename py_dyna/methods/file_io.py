@@ -19,7 +19,7 @@ def OpenFile(dsplotName,cwd):
     return f'open d3plot "{path}"'
 
 def set_info(author = None):
-    return f'#$ LS-PrePost command file created by {author if author else "University of Sydney"}\n#$ Created on {datetime.today().strftime("%Y-%m-%d %H:%M:%S")}'
+    return f'$# LS-PrePost command file created by {author if author else "University of Sydney"}\n$# Created on {datetime.today().strftime("%Y-%m-%d %H:%M:%S")}'
 
 
 def screenshot(imgName,cwd = os.getcwd(),window = 'OGL1x', gamma = 1.24 ,invert = 0.9,overwrite = False):
@@ -84,4 +84,4 @@ def comment(text):
     '''
     Add a comment to text file
     '''
-    return f'#$ {text}'
+    return f'$# {text}'
