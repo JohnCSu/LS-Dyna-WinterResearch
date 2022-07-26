@@ -10,4 +10,5 @@ d3plot02
 *.cfig
 *.db
 *.msg
+*.csv
 hello

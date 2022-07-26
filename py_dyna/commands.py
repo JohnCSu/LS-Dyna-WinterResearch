@@ -108,7 +108,7 @@ class commands():
 
     def historyGlobal(self,toPlot,filename = None,image = False):
         name,ext = filename.split('.')
-        self.comment('\nGet Global XY Data ' +'#'*20 + '\n')
+        self.comment('Get Global XY Data ' +'#'*20 + '\n')
         self.commands.append(historyGlobal(toPlot))
 
         if filename is not None:
@@ -120,7 +120,7 @@ class commands():
     def historyNodal(self,nodes,toPlot,filename = None,image = False):
         name,ext = filename.split('.')
 
-        self.comment('\nGet Nodal XY Data ' +'#'*20 + '\n')
+        self.comment('Get Nodal XY Data ' +'#'*20 + '\n')
         self.commands.append(historyNodal(nodes,toPlot))
 
         if filename is not None:
@@ -149,7 +149,7 @@ class commands():
 
         '''
         
-        self.comment('\nRecording contour Movie ' +'#'*20 + '\n')
+        self.comment('Recording contour Movie ' +'#'*20 + '\n')
 
         if viewpoint is not None:
             self.viewpoint(viewpoint)
@@ -180,7 +180,7 @@ class commands():
 
         '''
 
-        self.comment('\nScreenshotting contour photo ' +'#'*20 + '\n')
+        self.comment('Screenshotting contour photo ' +'#'*20 + '\n')
         if viewpoint is not None:
             self.viewpoint(viewpoint)
         #Set State you want to sceenshot
