@@ -49,8 +49,16 @@ class cfileOBJ():
     #Function independent of instance so can be called whenever
     #Converts a .cfile file into a list of commands
     
-    def importcfile(self,file,removeOpen = True, addToCommands = True):
-        #Function must contain the .cfile file extension else error is raised
+    def import_file(self,file,removeOpen = True, addToCommands = True):
+        '''
+        Import a a cfile and append it to the commands list
+
+        Inputs:
+        file : str name of file (with extension to import e.g. rotate.cfile)
+        removeOpen: bool Default: True      Flag to remove open d3plot command
+        addToCommands: bool Default: True   Flag to either add cleaned file to commands list and return None or return as a list of command strings
+
+        '''
          
         with open(file, 'r') as f:
             #Get rid of 
@@ -59,16 +67,14 @@ class cfileOBJ():
             if 'open d3plot' in cmd and removeOpen:
                 cfile.remove(cmd)
         
-        cfile.insert(0,f'#$ Imported cfile commands from {file} '+ '#'*20 + '\n')
+        cfile.insert(0,f'$# Imported commands from {file} '+ '#'*20 + '\n')
 
         #Give people the choice to directly append cfile to current commands
         if addToCommands:
-            self.commands.add_Cfile(cfile)
+            self.commands.add_file(cfile)
             return None
         else:
             return cfile
-
-
 if __name__ == '__main__':
     cfile = cfileOBJ()
     print(cfile)

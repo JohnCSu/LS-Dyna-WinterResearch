@@ -1,3 +1,5 @@
+import numpy as np
+
 def viewpoint(view = 'top'):
     '''
     Set default viewing angle for the GUI
@@ -56,12 +58,6 @@ def quat(x,i,j,k):
 
 
 
-def zoom(x,y,z):
-    pass
-
-
-
-
 
 def state(state_no = 1,increment = False):
     '''
@@ -71,14 +67,14 @@ def state(state_no = 1,increment = False):
 
     turning increment on will instead increment the current state by the number of frames given. Negative states are allowed 
     '''
-
+    
     if not isinstance(state_no,int):
         raise ValueError('Please insert an integer')
     inc = ''    
     if increment:
         inc = '+' if np.sign(state_no) >= 0 else '-'
     else:
-        if state < 0:
+        if state_no < 0:
             raise ValueError('Please add a positive state number')
     
     return f'state {inc}{state_no}'

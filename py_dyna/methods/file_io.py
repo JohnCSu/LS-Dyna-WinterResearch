@@ -22,7 +22,7 @@ def set_info(author = None):
     return f'$# LS-PrePost command file created by {author if author else "University of Sydney"}\n$# Created on {datetime.today().strftime("%Y-%m-%d %H:%M:%S")}'
 
 
-def screenshot(imgName,cwd = os.getcwd(),window = 'OGL1x', gamma = 1.24 ,invert = 0.9,overwrite = False):
+def screenshot(imgName,cwd = os.getcwd(),window = 'OGL1x', gamma = 1.24 ,invert = 0.9):
 
 #Split file name into name and extension  
     filename ,file_ext = imgName.split('.')
@@ -32,9 +32,7 @@ def screenshot(imgName,cwd = os.getcwd(),window = 'OGL1x', gamma = 1.24 ,invert 
     if file_ext not in valid_formats:
         ValueError(f'Please use a supported file firmat: \n{valid_formats}')
 
-    #Dont overwrite and check if file already exists
-    if not overwrite and imgName in os.listdir(cwd):
-        imgName = filename+str(len(glob(f'{filename}\b\d{1,2}\b.{file_ext}'))+1)+'.' + file_ext
+    
     full_path = os.path.join(cwd,imgName)
     
     return f'print {file_ext} "{full_path}" gamma {gamma} invert {invert} enlisted "{window}"'

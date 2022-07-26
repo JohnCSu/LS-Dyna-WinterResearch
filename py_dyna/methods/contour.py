@@ -148,29 +148,29 @@ def plotContour(contour, name = None,plot = 'fringe'):
 
     p_plot = 'p'+plot
 
-    comment = f'#$ Plotting {comment_name}\n'    
+    comment = f'$# Plotting {comment_name}\n'    
     return comment + f'{plot} {contour_val}; {p_plot}'
     
 
 
-def contourRange(range,min =None,max = None,levels = 10):
-    range_opt = {
+def contourRange(crange,min =None,max = None,levels = 10):
+    crange_opt = {
     'dynamic':'dynamic',
     'static':'static',
     'user':'userdef',
     'show': 'showelem'
     }
 
-    if range not in range_opt.keys():
-        raise ValueError(f'Please Enter a Valid Range from {range_opt}')
+    if crange not in crange_opt.keys():
+        raise ValueError(f'Please Enter a Valid range from {crange_opt}')
 
 
-    if range in {'dynammic','static'}:
-        return f'range {range[range]};\nrange level {levels};range pal update;'
+    if crange in {'dynamic','static'}:
+        return f'range {crange_opt[crange]};\nrange level {levels};range pal update;'
     else:
         if min is None or max is None:
-            raise ValueError(f'the option {range} requires a minimum and a maximum range')
-        return f'range {range[range]} {min} {max};\nrange level {levels};range pal update;'
+            raise ValueError(f'the option {crange} requires a minimum and a maximum range')
+        return f'crange {crange_opt[crange]} {min} {max};\nrange level {levels};range pal update;'
 
     
 

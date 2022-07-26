@@ -68,9 +68,9 @@ class commands():
     def openFile(self,filename = 'd3plot'):
         self.commands.append(OpenFile(filename,self.cwd))
 
-    def screenshot(self,imgName = 'image.png',window = 'OGL1x', gamma = 1.24 ,invert = 0.9,overwrite = False):
+    def screenshot(self,imgName = 'image.png',window = 'OGL1x', gamma = 1.24 ,invert = 0.9):
         self.comment('Record Screenshot')
-        self.commands.append(screenshot(imgName,self.cwd,window,gamma,invert, overwrite))
+        self.commands.append(screenshot(imgName,self.cwd,window,gamma,invert))
     
     def movie(self,mov_name = 'py_movie',format = 'MP4/H264',resolution = (1980,1080),gamma = 1.0, FPS = 10.0):
         self.comment('Record Movie')
@@ -100,9 +100,9 @@ class commands():
     def plotContour(self,contour, name = None,plot = 'fringe'):
         self.commands.append(plotContour(contour, name = None,plot = 'fringe'))
 
-    def contourRange(self,range,min =None,max = None):
+    def contourRange(self,crange,min =None,max = None,levels = 10):
         self.comment('Set Contour Range')
-        self.commands.append(contourRange(range,min =None,max = None))
+        self.commands.append(contourRange(crange,min,max,levels))
 
     #Functions from history.py
 
@@ -132,13 +132,13 @@ class commands():
 
     #Convience Functions
 
-    def ContourMovie(self,mov_name,contour,viewpoint = None,range = 'static',FPS = 10,levels = 10,plot = 'fringe',format = 'MP4/H264'):
+    def ContourMovie(self,mov_name,contour,viewpoint = None,crange = 'static',FPS = 10,levels = 10,plot = 'fringe',format = 'MP4/H264'):
         '''
         Convience Function to record movie. For complicated views outside of the default viewpoints (top,bottom,left etc), set the desired view outside of this function
         Inputs:
             mov_name : (str):                   Name of movie file with no ext
             contour: (str or int):              type of contour to display (e.g. von-mises)
-            range: str of(tuple) Default 'static': set Contour Range. if static or dynamic can be a single string otherwise add a tuple:
+            crange: str of(tuple) Default 'static': set Contour Range. if static or dynamic can be a single string otherwise add a tuple:
                                                     ('userdef',min , max),First element in tuple is the range type followed by the min val and max val if applicable
 
             viewpoint: (str) Default: None :    Viewpoint to record. If None uses current viewport
@@ -148,21 +148,21 @@ class commands():
 
         '''
         
-        self.comment('Recording Contour Movie')
+        self.comment('\nRecording contour Movie ' +'#'*20 + '\n')
 
         if viewpoint is not None:
             self.viewpoint(viewpoint)
     
         self.plotContour(contour=contour,plot=plot)
 
-        if isinstance(str,range):
-            self.contourRange(range=range,level = levels)
+        if isinstance(crange,str):
+            self.contourRange(crange=crange,levels = levels)
         else: #Is a tuple which will need to be unpacked
-            self.contourRange(*range,level = levels)
+            self.contourRange(*crange,levels = levels)
         
         self.movie(mov_name = mov_name,FPS = FPS,format=format)
 
-    def ContourPhoto(self,imgName,contour,state,viewpoint = None,range = 'static',levels = 10,plot = 'fringe'):
+    def ContourPhoto(self,imgName,contour,state,viewpoint = None,crange = 'static',levels = 10,plot = 'fringe'):
         '''
         Convience Function to screenshot photo. For complicated views outside of the default viewpoints (top,bottom,left etc), configure that first outside of this function
 
@@ -188,10 +188,10 @@ class commands():
 
         self.plotContour(contour=contour,plot=plot)
         
-        if isinstance(str,range):
-            self.contourRange(range=range,level = levels)
+        if isinstance(crange,str):
+            self.contourRange(crange=crange,levels = levels)
         else: #Is a tuple which will need to be unpacked
-            self.contourRange(*range,level = levels)
+            self.contourRange(*crange,levels = levels)
         
         self.screenshot(imgName= imgName)
 
@@ -205,15 +205,14 @@ class commands():
         self.state(0)
         self.commands.append('ac')
 
-    def add_Cfile(self,cfile):
+    def add_file(self,file):
         '''
         Add an imported cfile list from cfileOBJ().importcfile method
         Really its just a wrapper function that combines two lists together.
     
         '''
-        self.commands += cfile
+        self.commands += file
     
-
         
 
 if __name__ == '__main__':
