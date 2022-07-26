@@ -1,6 +1,16 @@
 from warnings import warn
 import os
 def historyGlobal(toPlot):
+    '''
+    Command to plot global XY value against time. 
+    
+    toPlot: str or int 
+    
+    if str it will check it with the Global_dict and match the string to the corresponding integer.
+    Alternatively you can directly pass an integer in although ensuring it is the correct integer is up
+    to the user
+
+    '''
     Global_dict = {
         'Kinetic Energy':1,
         'Internal Energy':2,
@@ -35,6 +45,18 @@ def historyGlobal(toPlot):
 
 
 def historyNodal(nodes,toPlot):
+    '''
+    Command to plot Nodal XY value against time. 
+    
+    nodes: iterable (e.g list or tuple) of node ids that will be plotted e.g [1,4,2] will plot nodes 1, 4 and 2. order does not matter
+    
+    toPlot: str or int 
+    if str it will check it with the Nodal_dict and match the string to the corresponding integer.
+    Alternatively you can directly pass an integer in although ensuring it is the correct integer is up
+    to the user
+
+
+    '''
     Nodal_dict = {
         'X-coordinate': 1,
         'Y-coordinate': 2,

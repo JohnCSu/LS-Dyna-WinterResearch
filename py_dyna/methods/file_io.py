@@ -22,9 +22,19 @@ def set_info(author = None):
     return f'$# LS-PrePost command file created by {author if author else "University of Sydney"}\n$# Created on {datetime.today().strftime("%Y-%m-%d %H:%M:%S")}'
 
 
-def screenshot(imgName,cwd = os.getcwd(),window = 'OGL1x', gamma = 1.24 ,invert = None):
+def screenshot(imgName,cwd = '',window = 'OGL1x', gamma = 1.24 ,invert = None):
+    '''
+    Screenshot the current window
+    Inputs:
 
-#Split file name into name and extension  
+        imgName (str): image name with file extension (e.g. img.png) extension determines the image format
+        cwd (str): current directory to save image default is same location as cfile execution
+        window (str): window to which to screenshot. The Default OGL1x will screenshot the main window.
+        gamma (float): set gamma value of the image
+        invert (float) : set inversion amount of black and white. Default is none in which case no inversion and background color is current colour
+
+    '''
+    #Split file name into name and extension  
     filename ,file_ext = imgName.split('.')
 
     #Check for valid photo format

@@ -2,7 +2,18 @@ import py_dyna as pd
 
 
 '''
+NOTE as of now, it is assummed that the d3plot file is in the same directory as this script. This allows the cmd file to be
+run on both Windows and Linux without worrying with path name sperators. This hopefully will be fixed in the future.
+
+
 You can find documentation of options in the methods folder (./py_dyna/methods...)
+
+e.g the valid strinfs for plotContour can be found in ./py_dyna/methods/contour.py under plotContour
+
+Use help(cmd.<function>) to print out documentation (some are empty)
+
+Future:
+Refactor command code to organise functions into differnet modules so easier to identify
 
 '''
 
@@ -16,9 +27,9 @@ cmd = cfile.commands
 cmd.set_info(author = 'John Su')
 cmd.openFile('d3plot')
 
-#Set view.py
+#See view.py
 cmd.viewpoint('isometric x')
-#Set contour Static
+#Set contour to Static range
 cmd.contourRange(crange='static')
 #See contour.py
 cmd.plotContour('von-mises')
@@ -37,9 +48,11 @@ imported_cfile = cfile.import_file('rotate.cfile',addToCommands=True)
 #Take a Photo at state 5. Excluding Viewpoint will take a picture of the current view
 cmd.ContourPhoto(imgName='macro.png',contour = 'von-mises',state = 5)
 
-#Generate a global Energy csv file and also generate an image by setting image to True
+#Generate a global Energy vs time csv file and also generate an image by setting image to True
 cmd.historyGlobal(toPlot='Kinetic Energy',filename='global_KE.csv',image = True)
 
+#Add a comment if you want. cfile comments have the prefix $#. The comment function will automatically include one
+cmd.comment('Hello World')
 
 #No need to add .cfileextension
 cfile.writeTo('hello_world')
