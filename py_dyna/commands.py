@@ -7,6 +7,7 @@ func_before = dir()
 from .methods.file_io import *
 from .methods.view import *
 from .methods.contour import *
+from .methods.XYdata import*
 func_after = dir()
 imported_funcs = [f for f in func_after if not f in func_before]
 
@@ -23,7 +24,6 @@ class commands():
     
     '''
     def __init__(self,cwd = ''):
-        super().__init__() 
         self.commands = []
         
         #Initialise state variables
@@ -104,7 +104,31 @@ class commands():
         self.comment('Set Contour Range')
         self.commands.append(contourRange(range,min =None,max = None))
 
+    #Functions from history.py
 
+    def historyGlobal(self,toPlot,filename = None,image = False):
+        name,ext = filename.split('.')
+        self.comment('Get XY Plot')
+        self.commands.append(historyGlobal(toPlot))
+
+        if filename is not None:
+            self.XYtoCSV(filename,self.cwd)
+        
+        if image:
+            self.screenshot(imgName= f'XY_Global_{name}.png',window = "PlotWindow-1")
+
+    def historyNodal(self,nodes,toPlot,filename = None,image = False):
+        name,ext = filename.split('.')
+        
+        self.commands.append(historyNodal(nodes,toPlot))
+
+        if filename is not None:
+            self.XYtoCSV(filename,self.cwd)
+        if image:
+            self.screenshot(imgName= f'XY_Nodal_{name}.png',window = "PlotWindow-1")
+
+    def XYtoCSV(self,filename,cwd):
+        self.commands.append(XYtoCSV(filename,cwd))
 
     #Convience Functions
 
@@ -189,6 +213,9 @@ class commands():
         '''
         self.commands += cfile
     
+
+        
+
 if __name__ == '__main__':
     cmd = commands()
     help(cmd.movie)

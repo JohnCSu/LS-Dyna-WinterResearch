@@ -5,6 +5,15 @@ import py_dyna as pd
 You can find documentation of options in the methods folder (./py_dyna/methods...)
 
 '''
+
+def func(x):
+    return x
+
+a = []
+
+a.append(func)
+
+print(a[0](1))
 #basic setup
 cfile = pd.cfileOBJ()
 cmd = cfile.commands

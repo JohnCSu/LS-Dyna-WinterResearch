@@ -69,8 +69,6 @@ class cfileOBJ():
             return cfile
 
 
-
-
 if __name__ == '__main__':
     cfile = cfileOBJ()
     print(cfile)
