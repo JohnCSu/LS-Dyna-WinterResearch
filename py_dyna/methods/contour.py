@@ -122,8 +122,6 @@ def plotContour(contour, name = None,plot = 'fringe'):
         '3rd-principal strain':616,
     }
 
-
-
     #If there are additional fringe plots you want then add them here
     valid_plots = {
         'fringe', #Frin
@@ -132,19 +130,13 @@ def plotContour(contour, name = None,plot = 'fringe'):
         'isofringe'
     }
 
-
     if plot not in valid_plots:
         warnings.warn('The selected plotting option is not in the selection. Please check that your chosen plot option is in LS-Dyna PrePost')
     
-
     contour_val = contour_dic[contour] if isinstance(contour,str) else contour
-
-
     comment_name = contour
     if isinstance(contour,int) and name is not None:
         comment_name = name
-
-    
 
     p_plot = 'p'+plot
 
