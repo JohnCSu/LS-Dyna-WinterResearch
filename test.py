@@ -36,16 +36,16 @@ cmd.plotContour('von-mises')
 #See file_io 
 cmd.movie(mov_name= 'hello_world')
 
-#The above commands can be wrapped together in a single function:
+#The above commands can be wrapped together in this single function:
 cmd.ContourMovie(mov_name= 'hello_world2',contour='x-displacement',viewpoint= 'isometric y')
 
 #Reset to Default View
 cmd.resetView()
 
-#Import a macro that will rotate the cfile
+#Import a macro that will rotate the model
 imported_cfile = cfile.import_file('rotate.cfile',addToCommands=True)
 
-#Take a Photo at state 5. Excluding Viewpoint will take a picture of the current view
+#Take a Photo at state/frame 5. Excluding Viewpoint will take a picture of the current view
 cmd.ContourPhoto(imgName='macro.png',contour = 'von-mises',state = 5)
 
 #Generate a global Energy vs time csv file and also generate an image by setting image to True
@@ -54,5 +54,5 @@ cmd.historyGlobal(toPlot='Kinetic Energy',filename='global_KE.csv',image = True)
 #Add a comment if you want. cfile comments have the prefix $#. The comment function will automatically include one
 cmd.comment('Hello World')
 
-#No need to add .cfileextension
+#No need to add .cfile extension
 cfile.writeTo('hello_world')
