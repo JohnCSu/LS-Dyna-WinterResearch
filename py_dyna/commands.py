@@ -108,7 +108,7 @@ class commands():
 
     def historyGlobal(self,toPlot,filename = None,image = False):
         name,ext = filename.split('.')
-        self.comment('Get XY Plot')
+        self.comment('\nGet Global XY Data ' +'#'*20 + '\n')
         self.commands.append(historyGlobal(toPlot))
 
         if filename is not None:
@@ -119,7 +119,8 @@ class commands():
 
     def historyNodal(self,nodes,toPlot,filename = None,image = False):
         name,ext = filename.split('.')
-        
+
+        self.comment('\nGet Nodal XY Data ' +'#'*20 + '\n')
         self.commands.append(historyNodal(nodes,toPlot))
 
         if filename is not None:

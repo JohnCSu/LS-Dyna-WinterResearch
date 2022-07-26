@@ -23,10 +23,10 @@ def historyGlobal(toPlot):
         'Resultant-Rigid Acceleration':15,
         'Rigid Wall Force, wall#1':16
     }
-    if isinstance(str,toPlot):
+    if isinstance(toPlot,str):
         value = Global_dict[toPlot]
         return f'gtime {value}'
-    elif isinstance(int,toPlot):
+    elif isinstance(toPlot,int):
         warn('Integer for name please check that the integer is a valid key')
         return f'gtime {toPlot}'
     else:
@@ -64,10 +64,10 @@ def historyNodal(nodes,toPlot):
         plot += 'genselect node add node {node}/0\n'
 
 
-    if isinstance(str,toPlot):
+    if isinstance(toPlot,str):
         value = Nodal_dict[toPlot]
         plot += 'ntime {value}\n'
-    elif isinstance(int,toPlot):
+    elif isinstance(toPlot,int):
         warn('Integer for name please ensure that the given integer is a valid key')
         plot += 'ntime {value}\n'
     else:
