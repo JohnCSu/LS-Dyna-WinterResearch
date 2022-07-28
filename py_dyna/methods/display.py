@@ -27,8 +27,15 @@ def displayParts(parts):
 
 
 def partColour(id,color,ColorBy = 'PartID'):
+    '''
+    Set the color for parts by there ID
 
-    r,g,b = [c/255 for c in color]
+    id: str or list of str: parts id(s) to color
+    color: a tuple of floats or int (r,g,b) values range from 0 to 255, values exceeding 255 are set to 255 and min is set to 0
+
+    ColorBy: str : Type of ID to color by. Currently only PartID is available
+    '''
+    r,g,b = [ max(min(c/255,1),0) for c in color]
     s = f'color option 1\ncolor global {r::.2f} {g::.2f} {b::.2f}\n'
 
     if isinstance(id,str):
@@ -39,7 +46,14 @@ def partColour(id,color,ColorBy = 'PartID'):
     
 
 def partTransparency(id,transparency,ColorBy = 'PartID'):
+    '''
+    Set the transparency for parts by there ID
 
+    id: str or list of str: parts id(s) to color
+    transparency: floats ranging from 0 to 1. Set to 1 for invisible and 0 for Opaque
+
+    ColorBy: str : Type of ID to color by. Currently only PartID is available
+    '''
     s = f'color option 2\ntransp global {transparency}\n'
 
     if isinstance(id,str):
