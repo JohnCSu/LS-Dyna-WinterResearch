@@ -1,5 +1,14 @@
 import numpy as np
 
+'''
+Contain all viewport like options e.g. orientation, zoom, panning options.
+
+For display options (colour, hiding parts) see display.py
+
+'''
+
+
+
 def viewpoint(view = 'top'):
     '''
     Set default viewing angle for the GUI
@@ -45,17 +54,12 @@ def rotate(angle = 10,axis = 'X'):
     return f'r{axis} {angle}'
     
 
-
-
 def quat(x,i,j,k):
     #Set Quarternion value
     for q in [x,i,j,k]:
         if not isinstance(int,q) or not isinstance(float,q):
             raise ValueError('quarternion values must be type int or float')
     return f'quat {x} {i} {j} {k};'
-
-
-
 
 
 
@@ -78,3 +82,5 @@ def state(state_no = 1,increment = False):
             raise ValueError('Please add a positive state number')
     
     return f'state {inc}{state_no}'
+
+
