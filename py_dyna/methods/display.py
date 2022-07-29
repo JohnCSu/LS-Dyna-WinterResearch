@@ -16,7 +16,6 @@ def displayParts(parts):
     parts = 'S4'
     parts = ['S4','F7']
 
-    
     '''
     
     if isinstance(parts,str):
@@ -42,7 +41,7 @@ def partColour(id,color,ColorBy = 'PartID'):
         return s + f'genselect part add part {id}/0'
     elif isinstance(id,list) or isinstance(id,tuple):
         #Bit of python magic here
-        return 'genselect part add part '.join([f'{i}/0 ' for i in id])
+        return s+'genselect part add part '.join([f'{i}/0 ' for i in id])
     
 
 def partTransparency(id,transparency,ColorBy = 'PartID'):
@@ -54,11 +53,13 @@ def partTransparency(id,transparency,ColorBy = 'PartID'):
 
     ColorBy: str : Type of ID to color by. Currently only PartID is available
     '''
+
+
     s = f'color option 2\ntransp global {transparency}\n'
 
     if isinstance(id,str):
         return s + f'genselect part add part {id}/0'
     elif isinstance(id,list) or isinstance(id,tuple):
         #Bit of python magic here
-        return 'genselect part add part '.join([f'{i}/0 ' for i in id])
+        return s + 'genselect part add part '.join([f'{i}/0 ' for i in id])
     
