@@ -22,7 +22,6 @@ cfile = pd.cfileOBJ()
 cmd = cfile.commands
 
 
-
 #Add info at top and file to open
 cmd.set_info(author = 'John Su')
 cmd.openFile('d3plot')
@@ -42,8 +41,13 @@ cmd.ContourMovie(mov_name= 'hello_world2',contour='x-displacement',viewpoint= 'i
 #Reset to Default View
 cmd.resetView()
 
-#Import a macro that will rotate the model
-imported_cfile = cfile.import_file('rotate.cfile',addToCommands=True)
+#Import a macro that will rotate the model and add to commands
+cfile.import_file('rotate.cfile',addToCommands=True)
+
+#Or for debugging we can import the cfile as a list of strings by setting addToCommands to True
+# imported_file =cfile.import_file('rotate.cfile',addToCommands=False)
+# print(imported_file)
+
 
 #Take a Photo at state/frame 5. Excluding Viewpoint will take a picture of the current view
 cmd.ContourPhoto(imgName='macro.png',contour = 'von-mises',state = 5)
@@ -53,6 +57,6 @@ cmd.historyGlobal(toPlot='Kinetic Energy',filename='global_KE.csv',image = True)
 
 #Add a comment if you want. cfile comments have the prefix $#. The comment function will automatically include one
 cmd.comment('Hello World')
-
+cmd.commands.append('closewin')
 #No need to add .cfile extension
 cfile.writeTo('hello_world')

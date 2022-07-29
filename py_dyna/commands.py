@@ -1,3 +1,4 @@
+from tkinter import Variable
 import numpy as np
 import os
 from pathlib import PureWindowsPath
@@ -8,6 +9,7 @@ from .methods.file_io import *
 from .methods.view import *
 from .methods.contour import *
 from .methods.XYdata import*
+from .methods.binout import*
 func_after = dir()
 imported_funcs = [f for f in func_after if not f in func_before]
 
@@ -112,7 +114,7 @@ class commands():
         self.commands.append(historyGlobal(toPlot))
 
         if filename is not None:
-            self.XYtoCSV(filename,self.cwd)
+            self.saveXY(filename,self.cwd)
         
         if image:
             self.screenshot(imgName= f'XY_Global_{name}.png',window = "PlotWindow-1")
@@ -124,12 +126,40 @@ class commands():
         self.commands.append(historyNodal(nodes,toPlot))
 
         if filename is not None:
-            self.XYtoCSV(filename,self.cwd)
+            self.saveXY(filename,self.cwd)
         if image:
             self.screenshot(imgName= f'XY_Nodal_{name}.png',window = "PlotWindow-1")
 
-    def XYtoCSV(self,filename,cwd):
-        self.commands.append(XYtoCSV(filename,cwd))
+    def saveXY(self,filename,cwd,file_type = 'csv'):
+        self.commands.append(saveXY(filename,cwd,file_type))
+
+    #Binout Functions from binout.py
+    def load_Binout(self,file='binout'):
+        self.binout = binout(file,self.cwd)
+        self.commands.append(self.binout.start)
+    def block_Binout(self,block):
+        self.commands.append(self.binout.loadBlock(block))
+    def plotXY_Binout(self,branches,toPlot):
+        self.commands.append(self.binout.plotXY(branches,toPlot))
+    def operations_Binout(self,operations):
+        if isinstance(operations,str):
+            operation = operations
+            self.commands.append(self.binout.operations(operation))
+        elif isinstance(operations,list) or isinstance(operations,tuple):
+            for operation in operations:
+                self.commands.append(self.binout.operations(operation))
+
+
+    def getBinoutPlot(self,filename,branches,toPlot,operations):
+        #Need to first load_Binout and block_binout first
+
+        self.comment(f'Plotting {toPlot} from binout File')
+        self.plotXY_Binout(branches,toPlot)
+        self.operations_Binout(operations)
+        self.saveXY(filename,self.cwd)
+        self.closeWin()
+
+
 
     #Convience Functions
 
@@ -214,8 +244,11 @@ class commands():
         '''
         self.commands += file
     
-        
-
+    def closeWin(self):
+        '''
+        Close any plot windows
+        '''
+        self.commands.append('closewin')
 if __name__ == '__main__':
     cmd = commands()
     help(cmd.movie)
