@@ -8,9 +8,12 @@ Instuctions: (see example scripts in root foolder for examples of function calls
 ```python
 import py_dyna as pd
 
-cfile = py_dyna.cfileOBJ()  
-cmd = cfile.commands  
-cmd.function()  
+cfile = pd.cfileOBJ()  
+cmd = cfile.commands
+
+#Example of adding command to open a d3plot file
+cmd.openFile('d3plot') 
+
 ```
 
 NOTE as of now, it is assummed that the d3plot file is in the same directory as this script. This allows the cmd file to be
