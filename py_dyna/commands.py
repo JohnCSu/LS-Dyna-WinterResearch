@@ -142,6 +142,12 @@ class commands():
     def plotXY_Binout(self,branches,toPlot):
         self.commands.append(self.binout.plotXY(branches,toPlot))
     def operations_Binout(self,operations):
+        '''
+        operations can either be a single string representing one operation
+
+        of a list/tuple of operations that are applied iteratively.
+        
+        '''
         if isinstance(operations,str):
             operation = operations
             self.commands.append(self.binout.operations(operation))
@@ -150,13 +156,23 @@ class commands():
                 self.commands.append(self.binout.operations(operation))
 
 
-    def getBinoutPlot(self,filename,branches,toPlot,operations):
+    def getBinoutPlot(self,branches,toPlot,operations,filename=None,saveImg=True):
         #Need to first load_Binout and block_binout first
+        
 
         self.comment(f'Plotting {toPlot} from binout File')
         self.plotXY_Binout(branches,toPlot)
         self.operations_Binout(operations)
-        self.saveXY(filename,self.cwd)
+
+        if filename is not None:
+            if len(filename.split('.')) > 1:
+                name,ext = filename.split('.')
+            else:
+                name = filename
+            self.saveXY(name,self.cwd)
+        if saveImg:
+            self.screenshot(imgName= f'{name}.png',window = "PlotWindow-1")
+
         self.closeWin()
 
 

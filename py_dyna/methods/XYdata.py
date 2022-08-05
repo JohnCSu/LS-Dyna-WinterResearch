@@ -101,13 +101,19 @@ def historyNodal(nodes,toPlot):
 
 
 def saveXY(filename,cwd,file_type = 'csv'):
-    
     valid_file_type = {'ms_csv','xypair','csv'}
-
-    if file_type == 'csv':
-        file_type = 'ms_csv'
     
     if not file_type in valid_file_type:
         raise ValueError(f'Please enter a correct Format from the following: {valid_file_type}')
-    path = os.path.join(cwd,filename)
+    
+
+    if len(filename.split('.')) == 1:
+        f = f'{filename}.{file_type}'
+    else:
+        f = filename
+    path = os.path.join(cwd,f)
+
+    #Super Janky but cbf
+    if file_type == 'csv':
+        file_type = 'ms_csv'
     return f'xyplot 1 savefile {file_type} "{path}" 1 all'

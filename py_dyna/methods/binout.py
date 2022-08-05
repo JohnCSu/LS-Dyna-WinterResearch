@@ -26,8 +26,8 @@ class binout():
         branches :int or list/tuple like
         toPlot : str binout dat to plot
         '''
-        self.plot = f'binaski plot {self.file_path} {self.blockname}'
-        
+        self.plot = f'binaski plot "{self.file_path}" {self.blockname}'
+        print(self.plot)
         if isinstance(branches,int):
         #If only an integer is passed in
             length = 1
@@ -37,11 +37,12 @@ class binout():
         elif isinstance(branches,list) or isinstance(branches,tuple):
         #If a list or tuple of branches added
             length = len(branches)
-            self.plot = f'{self.plot} {length} 1 '.join([f'{branch} ' for branch in branches]) + f'{toPlot} ;'
+            b = ''.join([f'{branch} ' for branch in branches])
+            self.plot = self.plot + f' {length} 1 {b}{toPlot} ;'
         return self.plot
 
 
-    def operations(operation):
+    def operations(self,operation):
         '''
         operation: type (str): types of operations to perform on data
         Examples:
